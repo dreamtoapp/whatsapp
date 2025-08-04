@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WhatsApp Cloud API Application
 
-## Getting Started
+تطبيق Next.js لإدارة رسائل WhatsApp باستخدام WhatsApp Cloud API.
 
-First, run the development server:
+## المميزات
 
+- ✅ إرسال رسائل نصية
+- ✅ استقبال الرسائل عبر Webhook
+- ✅ واجهة مستخدم عربية جميلة
+- ✅ دعم أنواع مختلفة من الرسائل (نص، صور، مستندات، صوت، فيديو، مواقع، جهات اتصال)
+- ✅ تحقق من صحة أرقام الجوال
+- ✅ معالجة الأخطاء
+
+## التثبيت
+
+1. تثبيت المكتبات:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. إنشاء ملف `.env.local`:
+```bash
+cp env.example .env.local
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. تحديث المتغيرات البيئية في `.env.local`:
+```env
+WHATSAPP_PERMANENT_TOKEN=your_token_here
+WHATSAPP_PHONE_NUMBER_ID=your_phone_number_id
+WHATSAPP_BUSINESS_ACCOUNT_ID=your_business_account_id
+WHATSAPP_WEBHOOK_VERIFY_TOKEN=ammwag_webhook_2024
+WHATSAPP_APP_SECRET=your_app_secret
+WHATSAPP_API_VERSION=v23.0
+WHATSAPP_ENVIRONMENT=production
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## تشغيل التطبيق
 
-## Learn More
+```bash
+pnpm dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+افتح [http://localhost:3000](http://localhost:3000) في المتصفح.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## إعداد Webhook
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. اذهب إلى [Facebook Developer Console](https://developers.facebook.com/)
+2. اختر تطبيقك
+3. اذهب إلى WhatsApp > Configuration
+4. أضف Webhook URL:
+   - URL: `https://your-domain.com/api/webhook`
+   - Verify Token: `ammwag_webhook_2024`
 
-## Deploy on Vercel
+## هيكل المشروع
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+wpapi/
+├── app/
+│   ├── api/webhook/     # Webhook endpoints
+│   ├── page.tsx         # الصفحة الرئيسية
+│   └── layout.tsx       # تخطيط التطبيق
+├── components/
+│   ├── ui/              # مكونات واجهة المستخدم الأساسية
+│   ├── chat/            # مكونات المحادثة
+│   └── layout/          # مكونات التخطيط
+├── actions/
+│   └── whatsapp/        # إجراءات WhatsApp API
+├── helpers/
+│   ├── types/           # أنواع TypeScript
+│   └── utils/           # دوال مساعدة
+└── public/              # الملفات العامة
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## API Endpoints
+
+### POST /api/webhook
+يستقبل رسائل WhatsApp من Facebook.
+
+### GET /api/webhook
+يستخدم للتحقق من صحة Webhook.
+
+## استخدام التطبيق
+
+1. **إرسال رسالة**: أدخل رقم الجوال والرسالة واضغط "إرسال الرسالة"
+2. **عرض الرسائل**: ستظهر الرسائل المستلمة في القسم الأيمن
+3. **مراقبة الحالة**: تحقق من حالة الاتصال في الأسفل
+
+## أنواع الرسائل المدعومة
+
+- رسائل نصية
+- صور
+- مستندات
+- رسائل صوتية
+- فيديو
+- مواقع جغرافية
+- جهات اتصال
+
+## الأمان
+
+- تحقق من صحة أرقام الجوال
+- تشفير البيانات الحساسة
+- معالجة آمنة للأخطاء
+
+## المساهمة
+
+1. Fork المشروع
+2. أنشئ branch جديد
+3. اكتب التغييرات
+4. أرسل Pull Request
+
+## الترخيص
+
+MIT License
+# whatsapp
