@@ -40,22 +40,25 @@ export async function POST(request: NextRequest) {
       for (const change of entry.changes) {
         console.log('🔄 معالجة change:', change.field);
 
-        // التحقق من أن هذا change للرسائل
-        if (change.field === 'messages') {
-          const value = change.value;
-          console.log('📨 قيمة change:', JSON.stringify(value, null, 2));
-
-          // التحقق من وجود رسائل
-          if (value.messages && Array.isArray(value.messages)) {
-            console.log('📨 عدد الرسائل المستلمة:', value.messages.length);
-
-            for (const message of value.messages) {
-              console.log('💬 معالجة رسالة:', message.id);
-              await processMessage(message);
-            }
-          } else {
-            console.log('📨 لا توجد رسائل في هذا change');
-          }
+        // معالجة أنواع مختلفة من webhooks
+        switch (change.field) {
+          case 'messages':
+            await handleMessagesChange(change.value);
+            break;
+          case 'about':
+            await handleAboutChange(change.value);
+            break;
+          case 'email':
+            await handleEmailChange(change.value);
+            break;
+          case 'fbe_install':
+            await handleFbeInstallChange(change.value);
+            break;
+          case 'books':
+            await handleBooksChange(change.value);
+            break;
+          default:
+            console.log('📝 معالجة change غير معروف:', change.field, change.value);
         }
       }
     }
@@ -65,6 +68,46 @@ export async function POST(request: NextRequest) {
     console.error('❌ خطأ في Webhook:', error);
     return new NextResponse('Internal Server Error', { status: 500 });
   }
+}
+
+async function handleMessagesChange(value: any) {
+  console.log('📨 معالجة تغيير الرسائل:', JSON.stringify(value, null, 2));
+
+  // التحقق من وجود رسائل
+  if (value.messages && Array.isArray(value.messages)) {
+    console.log('📨 عدد الرسائل المستلمة:', value.messages.length);
+
+    for (const message of value.messages) {
+      console.log('💬 معالجة رسالة:', message.id);
+      await processMessage(message);
+    }
+  } else {
+    console.log('📨 لا توجد رسائل في هذا change');
+  }
+}
+
+async function handleAboutChange(value: any) {
+  console.log('ℹ️ معالجة تغيير about:', JSON.stringify(value, null, 2));
+
+  if (value.field === 'about') {
+    console.log('📝 قيمة about الجديدة:', value.value);
+    // هنا يمكنك إضافة منطق إضافي لمعالجة تغيير about
+  }
+}
+
+async function handleEmailChange(value: any) {
+  console.log('📧 معالجة تغيير email:', JSON.stringify(value, null, 2));
+  // معالجة تغييرات email
+}
+
+async function handleFbeInstallChange(value: any) {
+  console.log('🔧 معالجة تغيير fbe_install:', JSON.stringify(value, null, 2));
+  // معالجة تغييرات fbe_install
+}
+
+async function handleBooksChange(value: any) {
+  console.log('📚 معالجة تغيير books:', JSON.stringify(value, null, 2));
+  // معالجة تغييرات books
 }
 
 async function processMessage(message: any) {

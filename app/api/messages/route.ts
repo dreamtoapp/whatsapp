@@ -14,10 +14,10 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const message: WhatsAppMessage = await request.json();
-    
+
     // إضافة الرسالة للمخزن المشترك
     addMessage(message);
-    
+
     return NextResponse.json({ success: true, message: 'تم حفظ الرسالة' });
   } catch (error) {
     return NextResponse.json({ error: 'خطأ في حفظ الرسالة' }, { status: 500 });

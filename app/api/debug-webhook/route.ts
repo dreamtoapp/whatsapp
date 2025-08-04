@@ -4,25 +4,25 @@ export async function GET() {
   try {
     // اختبار الوصول للويبهوك المباشر
     const webhookUrl = 'https://wp.dreamto.app/api/webhook';
-
+    
     console.log('🧪 اختبار الوصول للويبهوك المباشر:', webhookUrl);
-
+    
     const response = await fetch(webhookUrl, {
       method: 'GET',
     });
 
     console.log('📊 حالة الويبهوك:', response.status, response.statusText);
-
+    
     if (response.status === 403) {
-      return NextResponse.json({
-        success: true,
+      return NextResponse.json({ 
+        success: true, 
         message: 'الويبهوك يعمل (403 Forbidden هو طبيعي للـ GET)',
         status: response.status,
         statusText: response.statusText
       });
     } else {
-      return NextResponse.json({
-        success: false,
+      return NextResponse.json({ 
+        success: false, 
         message: 'الويبهوك لا يستجيب بشكل صحيح',
         status: response.status,
         statusText: response.statusText
@@ -30,7 +30,7 @@ export async function GET() {
     }
   } catch (error) {
     console.error('❌ خطأ في اختبار الويبهوك:', error);
-    return NextResponse.json({
+    return NextResponse.json({ 
       error: 'خطأ في الاتصال بالويبهوك',
       details: error instanceof Error ? error.message : 'خطأ غير معروف'
     }, { status: 500 });
@@ -41,7 +41,7 @@ export async function POST() {
   try {
     // إرسال بيانات webhook تجريبية للموقع المباشر
     const webhookUrl = 'https://wp.dreamto.app/api/webhook';
-
+    
     const mockWebhookData = {
       object: 'whatsapp_business_account',
       entry: [
@@ -83,7 +83,7 @@ export async function POST() {
     };
 
     console.log('🧪 إرسال بيانات webhook للموقع المباشر...');
-
+    
     const response = await fetch(webhookUrl, {
       method: 'POST',
       headers: {
@@ -93,17 +93,17 @@ export async function POST() {
     });
 
     console.log('📊 استجابة الويبهوك المباشر:', response.status, response.statusText);
-
+    
     if (response.ok) {
-      return NextResponse.json({
-        success: true,
+      return NextResponse.json({ 
+        success: true, 
         message: 'تم إرسال بيانات webhook للموقع المباشر بنجاح',
         status: response.status
       });
     } else {
       const errorText = await response.text();
-      return NextResponse.json({
-        success: false,
+      return NextResponse.json({ 
+        success: false, 
         message: 'خطأ في إرسال بيانات webhook للموقع المباشر',
         status: response.status,
         error: errorText
@@ -111,7 +111,7 @@ export async function POST() {
     }
   } catch (error) {
     console.error('❌ خطأ في اختبار الويبهوك المباشر:', error);
-    return NextResponse.json({
+    return NextResponse.json({ 
       error: 'خطأ في الاتصال بالويبهوك المباشر',
       details: error instanceof Error ? error.message : 'خطأ غير معروف'
     }, { status: 500 });

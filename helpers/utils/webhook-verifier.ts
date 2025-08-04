@@ -3,28 +3,28 @@ import axios from 'axios';
 export async function verifyWebhookSetup() {
   try {
     console.log('🔍 التحقق من إعدادات الويبهوك...');
-
+    
     // التحقق من الوصول للويبهوك
     const webhookUrl = 'https://wp.dreamto.app/api/webhook';
-
+    
     console.log('📡 اختبار الوصول للويبهوك:', webhookUrl);
-
+    
     const response = await axios.get(webhookUrl, {
       timeout: 10000,
     });
-
+    
     console.log('✅ الويبهوك يستجيب:', response.status);
     return { success: true, status: response.status };
-
+    
   } catch (error: any) {
     if (error.response?.status === 403) {
       console.log('✅ الويبهوك يعمل (403 Forbidden طبيعي للـ GET)');
       return { success: true, status: 403, message: 'الويبهوك يعمل بشكل صحيح' };
     }
-
+    
     console.error('❌ خطأ في الوصول للويبهوك:', error.message);
-    return {
-      success: false,
+    return { 
+      success: false, 
       error: error.message,
       details: 'تأكد من أن الموقع يعمل وأن الويبهوك مُعد بشكل صحيح'
     };
@@ -34,9 +34,9 @@ export async function verifyWebhookSetup() {
 export async function testWebhookWithData() {
   try {
     console.log('🧪 اختبار الويبهوك ببيانات تجريبية...');
-
+    
     const webhookUrl = 'https://wp.dreamto.app/api/webhook';
-
+    
     const testData = {
       object: 'whatsapp_business_account',
       entry: [
@@ -74,21 +74,21 @@ export async function testWebhookWithData() {
         }
       ]
     };
-
+    
     const response = await axios.post(webhookUrl, testData, {
       headers: {
         'Content-Type': 'application/json',
       },
       timeout: 10000,
     });
-
+    
     console.log('✅ اختبار الويبهوك نجح:', response.status);
     return { success: true, status: response.status };
-
+    
   } catch (error: any) {
     console.error('❌ خطأ في اختبار الويبهوك:', error.message);
-    return {
-      success: false,
+    return { 
+      success: false, 
       error: error.message,
       details: 'الويبهوك لا يستقبل البيانات بشكل صحيح'
     };
