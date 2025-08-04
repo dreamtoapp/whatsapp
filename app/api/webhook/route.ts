@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { WebhookPayload, WhatsAppMessage } from '../../../helpers/types/whatsapp';
 import { addMessage } from '../../../helpers/utils/message-store';
 
 export async function GET(request: NextRequest) {
@@ -80,10 +79,10 @@ async function processMessage(message: any) {
   }
 
   // تحويل الرسالة إلى النوع الصحيح
-  const whatsappMessage: WhatsAppMessage = {
+  const whatsappMessage = {
     id: message.id,
     from: message.from,
-    to: message.to,
+    to: message.to || process.env.WHATSAPP_PHONE_NUMBER_ID,
     timestamp: message.timestamp,
     type: message.type,
     text: message.text,
