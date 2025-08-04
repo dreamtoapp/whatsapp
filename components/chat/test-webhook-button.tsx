@@ -18,14 +18,14 @@ export function TestWebhookButton() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('✅ اختبار الويبهوك نجح:', data);
+        console.log('✅ نجح اختبار الويبهوك:', data);
 
         // انتظار قليلاً ثم تحديث الصفحة
         setTimeout(() => {
           window.location.reload();
         }, 3000);
       } else {
-        console.error('❌ خطأ في اختبار الويبهوك');
+        console.error('❌ فشل اختبار الويبهوك');
       }
     } catch (error) {
       console.error('❌ خطأ في الاتصال:', error);
@@ -39,7 +39,7 @@ export function TestWebhookButton() {
       onClick={testWebhook}
       disabled={isLoading}
       variant="outline"
-      className="w-full mb-4 bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100"
+      className="w-full mb-4 bg-accent border-border text-accent-foreground hover:bg-accent/80"
     >
       <Webhook className="w-4 h-4 mr-2" />
       {isLoading ? 'جاري اختبار الويبهوك...' : 'اختبار الويبهوك'}

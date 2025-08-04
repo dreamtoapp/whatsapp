@@ -15,7 +15,7 @@ export function TestMessageButton() {
       });
 
       if (response.ok) {
-        console.log('تم إضافة رسالة تجريبية');
+        console.log('تم إضافة رسالة تجريبية بنجاح');
         // تحديث الصفحة بعد ثانيتين
         setTimeout(() => {
           window.location.reload();
@@ -35,7 +35,7 @@ export function TestMessageButton() {
       onClick={addTestMessage}
       disabled={isLoading}
       variant="outline"
-      className="w-full mb-4"
+      className="w-full mb-4 bg-secondary border-border text-secondary-foreground hover:bg-secondary/80"
     >
       <MessageSquare className="w-4 h-4 mr-2" />
       {isLoading ? 'جاري الإضافة...' : 'إضافة رسالة تجريبية'}
