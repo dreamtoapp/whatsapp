@@ -7,12 +7,13 @@ import { MessageList } from '../components/chat/message-list';
 import { TestMessageButton } from '../components/chat/test-message-button';
 import { TestWebhookButton } from '../components/chat/test-webhook-button';
 import { useMessages } from '../helpers/hooks/use-messages';
-import { RefreshCw, MessageCircle, Settings, Activity } from 'lucide-react';
+import { RefreshCw, MessageCircle, Settings, Activity, Info } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Separator } from '../components/ui/separator';
 import { Toaster } from '../components/ui/sonner';
+import { toast } from 'sonner';
 
 export default function Home() {
   const { messages, loading, error, refetch } = useMessages();
@@ -59,22 +60,27 @@ export default function Home() {
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="flex items-center gap-2">
-                      الرسائل الحقيقية
-                      <Badge variant={loading ? "secondary" : "default"}>
-                        {messages.length} رسالة
-                      </Badge>
+
                     </CardTitle>
                     <CardDescription>
                       الرسائل المستلمة من واتساب
                     </CardDescription>
                   </div>
                   <button
-                    onClick={refetch}
-                    disabled={loading}
-                    className="flex items-center gap-2 px-3 py-2 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 disabled:opacity-50 transition-colors"
+                    onClick={() => {
+                      const lastMessageTime = messages.length > 0
+                        ? new Date(parseInt(messages[0].timestamp) * 1000).toLocaleString('ar-SA')
+                        : 'لا توجد رسائل';
+
+                      toast.info('معلومات الرسائل', {
+                        description: `عدد الرسائل: ${messages.length}\nآخر تحديث: ${new Date().toLocaleString('ar-SA')}\nحالة الاتصال: ${loading ? 'جاري التحميل...' : 'متصل'}\nآخر رسالة: ${lastMessageTime}`,
+                        icon: <Info className="w-4 h-4" />,
+                        duration: 5000,
+                      });
+                    }}
+                    className="flex items-center gap-2 px-3 py-2 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
                   >
-                    <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-                    تحديث
+                    <Info className="w-4 h-4" />
                   </button>
                 </div>
               </CardHeader>
